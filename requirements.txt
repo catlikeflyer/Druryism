@@ -1,0 +1,10 @@
+# Peter Drury Vision-to-Commentary Pipeline Requirements
+
+# Core Machine Learning & Vision Stage (PyTorch BLIP)
+torch
+transformers
+Pillow
+
+# Apple Silicon local inference and fine-tuning engine
+mlx
+mlx-lm

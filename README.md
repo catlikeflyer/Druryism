@@ -5,7 +5,7 @@ A modular, production-ready Python pipeline that translates sports scenes (image
 > [!WARNING]
 > **System Compatibility**: This project is designed exclusively for **Apple Silicon (M-series) macOS devices using the MLX framework**. It leverages Apple's unified memory architecture for accelerated local inference and is not compatible with Windows, Linux, or Intel-based Macs.
 >
-> 🎙️ **Shout-out to the Legend**: Massive appreciation and shout-out to the legendary **Peter Drury**, the poet laureate of football commentary, whose unmatched dramatic cadence and Shakespearean delivery inspired this project!
+> 🎙️ **Shout-out to the Legend**: Massive appreciation and shout-out to the legendary [Peter Drury](https://en.wikipedia.org/wiki/Peter_Drury), the poet laureate of football commentary, whose unmatched dramatic cadence and Shakespearean delivery inspired this project!
 
 ---
 

@@ -1,6 +1,6 @@
 # Peter Drury Vision-to-Commentary Pipeline
 
-A modular, production-ready Python pipeline that translates sports scenes (images) into poetic, Shakespearean-infused monologues in the style of legendary football commentator Peter Drury.
+A modular, production-ready Python pipeline that translates sports scenes (images) into poetic, Shakespearean-infused monologues in the style of legendary football commentator [Peter Drury](https://en.wikipedia.org/wiki/Peter_Drury).
 
 > [!WARNING]
 > **System Compatibility**: This project is designed exclusively for **Apple Silicon (M-series) macOS devices using the MLX framework**. It leverages Apple's unified memory architecture for accelerated local inference and is not compatible with Windows, Linux, or Intel-based Macs.

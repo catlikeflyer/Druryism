@@ -86,6 +86,7 @@ Druryism/
 ├── eval.py               # Evaluation suite script (fine-tuned vs baseline)
 ├── generate_dataset.py   # Dataset creator script (pre-run)
 ├── train.sh              # Fine-tuning automation script (installs deps + trains)
+├── run_all.sh            # E2E pipeline runner (orchestrates data check, training, eval, and inference)
 └── README.md             # Project documentation (this file)
 ```
 
@@ -108,6 +109,14 @@ Druryism/
 ---
 
 ## 5. Execution Steps
+
+### Quick Start: Run Everything Automatically
+If you want to run the entire pipeline in one go (checking/generating datasets, training adapters if they are missing, running evaluations, and executing the main inference pipeline), run the orchestrator script:
+```bash
+chmod +x run_all.sh
+./run_all.sh
+```
+Otherwise, you can follow the manual step-by-step instructions below.
 
 ### Step 1: Pre-generate or Verify Dataset
 The dataset has already been populated at `data/train.jsonl` and `data/valid.jsonl` with 30 high-quality Shakespearean-Drury entries. If you ever need to reset or rebuild the dataset, run:

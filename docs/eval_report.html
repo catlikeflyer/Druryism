@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Druryism SLM Evaluation Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-obsidian: #0b1329;
+            --bg-card: rgba(15, 23, 42, 0.65);
+            --border-card: rgba(255, 255, 255, 0.07);
+            --border-card-hover: rgba(99, 102, 241, 0.3);
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --secondary: #a855f7;
+            --secondary-glow: rgba(168, 85, 247, 0.15);
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.12);
+            --warning: #f59e0b;
+            --accent-pink: #ec4899;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Outfit', sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 55%),
+                radial-gradient(at 50% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 55%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 40%);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            padding: 2.5rem;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        header {
+            max-width: 1400px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .title-container {
+            display: inline-block;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #a5b4fc 10%, #c084fc 50%, #f472b6 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 50px rgba(99, 102, 241, 0.25);
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .badge-container {
+            margin-top: 1.25rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+        }
+
+        .badge.active {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.1);
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Metrics Cards Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-card);
+            border-radius: 1.25rem;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-card-hover);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.08);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .metric-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .metric-value-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .model-name {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .baseline-val {
+            color: var(--text-secondary);
+        }
+
+        .finetuned-val {
+            background: linear-gradient(135deg, #a5b4fc, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .percentage-badge {
+            grid-column: span 2;
+            margin-top: 1rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            border: 1px solid transparent;
+        }
+
+        .percentage-badge.positive {
+            background: var(--success-glow);
+            border-color: rgba(16, 185, 129, 0.25);
+            color: #34d399;
+        }
+
+        .percentage-badge.neutral {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+        }
+
+        /* Visualization Section */
+        .dashboard-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-card);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-main);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 350px;
+            position: relative;
+        }
+
+        svg.chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Side-by-Side playground */
+        .playground-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            min-height: 600px;
+        }
+
+        @media (max-width: 768px) {
+            .playground-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .scene-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            overflow-y: auto;
+            max-height: 650px;
+            padding-right: 0.5rem;
+        }
+
+        .scene-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scene-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+        }
+
+        .scene-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0.85rem;
+            padding: 1.15rem;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .scene-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .scene-btn.active {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.35);
+            color: var(--text-main);
+            box-shadow: inset 0 0 12px rgba(99, 102, 241, 0.05);
+        }
+
+        .scene-badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scene-id-lbl {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .scene-type-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.15rem 0.45rem;
+            border-radius: 99px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .type-validation {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .type-generalization {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        .scene-snippet {
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        .comparison-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .factual-input-box {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .factual-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .factual-text {
+            font-size: 1.05rem;
+            color: var(--text-main);
+            font-weight: 400;
+        }
+
+        /* Outputs Side-by-Side */
+        .outputs-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .outputs-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .output-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.25rem;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .output-box.finetuned-box {
+            background: radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.05) 0%, rgba(255, 255, 255, 0.02) 70%);
+            border-color: rgba(168, 85, 247, 0.25);
+            box-shadow: 0 4px 24px rgba(168, 85, 247, 0.03);
+        }
+
+        .output-box.finetuned-box::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            right: 1.5rem;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding-bottom: 0.75rem;
+        }
+
+        .output-label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lbl-baseline {
+            color: var(--text-secondary);
+        }
+
+        .lbl-finetuned {
+            color: #c084fc;
+        }
+
+        .text-content {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--text-main);
+            min-height: 140px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.01em;
+        }
+
+        .text-content.poetic-font {
+            font-family: var(--font-sans);
+            font-style: italic;
+        }
+
+        /* Highlights */
+        .drury-highlight {
+            background: rgba(168, 85, 247, 0.15);
+            border-bottom: 1.5px solid rgba(168, 85, 247, 0.5);
+            padding: 0.05rem 0.25rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            color: #d8b4fe;
+            text-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+            display: inline-block;
+            margin: 0 0.05rem;
+        }
+
+        .ground-truth-box {
+            border: 1px dashed rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.015);
+            border-radius: 1.25rem;
+            padding: 1.5rem 1.75rem;
+            position: relative;
+        }
+
+        .lbl-gt {
+            color: var(--success);
+        }
+
+        .gt-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Scene Specific Metrics Table */
+        .scene-metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .scene-metrics-table th {
+            text-align: left;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .scene-metrics-table td {
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .scene-metrics-table td.m-val {
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+
+        /* Druryism Vocabulary Grid */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .vocab-item {
+            padding: 0.6rem;
+            border-radius: 0.75rem;
+            font-size: 0.85rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.01);
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+        }
+
+        .vocab-item.hit {
+            background: rgba(168, 85, 247, 0.08);
+            border-color: rgba(168, 85, 247, 0.25);
+            color: #d8b4fe;
+            font-weight: 500;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.05);
+        }
+
+        .check-icon {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            color: #a855f7;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title-container">
+            <h1>Druryism Commentary Engine</h1>
+        </div>
+        <p class="subtitle">Quantitative and qualitative evaluation of the local fine-tuned SLM (base Phi-3-mini + QLoRA adapters) vs the baseline model.</p>
+        <div class="badge-container">
+            <span class="badge active">Local Apple Silicon</span>
+            <span class="badge active">Phi-3-Mini-4K (4-bit)</span>
+            <span class="badge active">QLoRA Adapters (200 Iters)</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Metrics Summary Cards -->
+        <section class="metrics-grid">
+            <!-- Metric 1: Druryisms Count -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-title">Avg Druryisms Per Scene</span>
+                    <span class="metric-icon">✨</span>
+                </div>
+                <div class="metric-comparison">
+                    <div class="metric-value-box">
+                        <span class="model-name">Baseline</span>
+                        <span class="metric-value baseline-val" id="sum-base-drury">0.0</span>
+                    </div>
+                    <div class="metric-value-box">
+                        <span class="model-name">Fine-Tuned</span>
+                        <span class="metric-value finetuned-val" id="sum-ft-drury">0.0</span>
+                    </div>
+                    <div class="percentage-badge positive" id="sum-drury-pct">
+                        +0% Increase in Poetic Imagery
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric 2: Exclamations -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-title">Dramatic Delivery (Exclamations)</span>
+                    <span class="metric-icon">🔥</span>
+                </div>
+                <div class="metric-comparison">
+                    <div class="metric-value-box">
+                        <span class="model-name">Baseline</span>
+                        <span class="metric-value baseline-val" id="sum-base-excl">0.0</span>
+                    </div>
+                    <div class="metric-value-box">
+                        <span class="model-name">Fine-Tuned</span>
+                        <span class="metric-value finetuned-val" id="sum-ft-excl">0.0</span>
+                    </div>
+                    <div class="percentage-badge positive" id="sum-excl-pct">
+                        +0% Dramatic Intensity
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric 3: Vocabulary Richness (TTR) -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-title">Vocabulary Diversity (TTR)</span>
+                    <span class="metric-icon">📚</span>
+                </div>
+                <div class="metric-comparison">
+                    <div class="metric-value-box">
+                        <span class="model-name">Baseline</span>
+                        <span class="metric-value baseline-val" id="sum-base-ttr">0.000</span>
+                    </div>
+                    <div class="metric-value-box">
+                        <span class="model-name">Fine-Tuned</span>
+                        <span class="metric-value finetuned-val" id="sum-ft-ttr">0.000</span>
+                    </div>
+                    <div class="percentage-badge neutral" id="sum-ttr-pct">
+                        TTR (Unique Words / Total Words)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric 4: Generation Speed -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-title">Avg Generation Speed</span>
+                    <span class="metric-icon">⚡</span>
+                </div>
+                <div class="metric-comparison">
+                    <div class="metric-value-box">
+                        <span class="model-name">Baseline</span>
+                        <span class="metric-value baseline-val" id="sum-base-speed">0.0 t/s</span>
+                    </div>
+                    <div class="metric-value-box">
+                        <span class="model-name">Fine-Tuned</span>
+                        <span class="metric-value finetuned-val" id="sum-ft-speed">0.0 t/s</span>
+                    </div>
+                    <div class="percentage-badge neutral" id="sum-speed-pct">
+                        0.0s vs 0.0s Avg Duration
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization Row -->
+        <section class="dashboard-row">
+            <div class="panel">
+                <div class="panel-title">
+                    <span>Poetic Word count (Druryisms) per Scene</span>
+                    <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-secondary);">Baseline (Grey) vs. Fine-Tuned (Indigo)</span>
+                </div>
+                <div class="chart-container" id="bar-chart-container">
+                    <svg class="chart-svg" id="metrics-chart" viewBox="0 0 800 320">
+                        <!-- Chart will be drawn dynamically via JS -->
+                    </svg>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <span>Inference Speed Comparison</span>
+                    <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-secondary);">Tokens / Second</span>
+                </div>
+                <div class="chart-container">
+                    <svg class="chart-svg" id="speed-chart" viewBox="0 0 350 320">
+                        <!-- Speed chart drawn dynamically -->
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Playground -->
+        <section class="panel">
+            <div class="panel-title">
+                <span>Side-by-Side Commentary Playground</span>
+                <span class="badge" style="background: rgba(99, 102, 241, 0.05); border-color: rgba(99, 102, 241, 0.2); color: var(--primary);">Interactive</span>
+            </div>
+
+            <div class="playground-grid">
+                <!-- Scene Selector List -->
+                <div class="scene-list" id="scene-selector-list">
+                    <!-- Populated via JS -->
+                </div>
+
+                <!-- Detailed Comparison View -->
+                <div class="comparison-details" id="comparison-details-view">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Druryism Lexicon Coverage -->
+        <section class="panel">
+            <div class="panel-title">
+                <span>Druryism Dictionary Coverage</span>
+                <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-secondary);" id="vocab-coverage-ratio">0/0 words hit (0%)</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem; max-width: 900px;">
+                The QLoRA adapters adapt the model's token distribution, increasing the likelihood of specific dramatic words. Below is the list of target poetic vocabulary terms tracked during evaluation. Highlighted words were successfully generated in at least one scene by the fine-tuned model.
+            </p>
+            <div class="vocab-grid" id="vocab-grid-container">
+                <!-- Populated via JS -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Injecting the raw JSON evaluation data
+        const data = {
+  "summary": {
+    "baseline": {
+      "avg_speed": 49.8,
+      "avg_word_count": 132.3,
+      "avg_drury_count": 1.4,
+      "avg_drury_density": 1.07,
+      "avg_ttr": 0.679,
+      "avg_exclamation_count": 0.1,
+      "avg_generation_time": 4.02,
+      "unique_druryisms_hit": 13,
+      "all_druryisms_hit": [
+        "unyielding",
+        "whistle",
+        "drama",
+        "audacity",
+        "glory",
+        "poetic",
+        "heavens",
+        "razor",
+        "titan",
+        "theatre",
+        "physics",
+        "fury",
+        "defiance"
+      ]
+    },
+    "finetuned": {
+      "avg_speed": 43.8,
+      "avg_word_count": 104.6,
+      "avg_drury_count": 1.5,
+      "avg_drury_density": 1.5,
+      "avg_ttr": 0.599,
+      "avg_exclamation_count": 6.2,
+      "avg_generation_time": 4.57,
+      "unique_druryisms_hit": 9,
+      "all_druryisms_hit": [
+        "despair",
+        "epic",
+        "defying",
+        "poetic",
+        "genius",
+        "threshold",
+        "bedlam",
+        "exquisite",
+        "physics"
+      ]
+    }
+  },
+  "comparisons": [
+    {
+      "id": 1,
+      "type": "Validation",
+      "scene": "A veteran player, playing their final match before retirement, gets substituted off. The entire stadium, including opposing fans, gives a standing ovation.",
+      "ground_truth": "The curtain falls on an immortal. A standing ovation that transcends tribal loyalty. They applaud the man, the myth, the decades of devotion written in the lines of his face. The game stands still to say goodbye.",
+      "baseline": {
+        "text": "As the final whistle blows, I'm taken aback by the sheer emotion that pervades the air. It's one of those rare moments that transcend the ordinary, leaving an indelible mark on the annals of the game. Today, the stage is set not just on the lush green turf but in the very souls of those who hold this sport dear.\n\nThe spotlight dims, and there he stands \u2014 a legend in cleats, in jersey, in the history of this game. He is a titan among men, a tactician who has led his team to glory and, tonight, to the precipice of retirement. The weight of the years he's lifted off the pitch will be felt in the eyes of the crowd.\n\nThe ball crosses the net, a feint so masterful that it almost defies the laws of physics. The veteran, with",
+        "word_count": 141,
+        "char_count": 727,
+        "drury_count": 4,
+        "drury_words": [
+          "whistle",
+          "titan",
+          "physics",
+          "glory"
+        ],
+        "drury_density": 2.84,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.681,
+        "generation_time": 3.849,
+        "token_count": 200,
+        "speed": 51.96
+      },
+      "finetuned": {
+        "text": "They asked him to leave the stage one more time \u2014 to say goodbye to the house one last time. And he rises. And the entire building stands up. We will not see this again. One last time.<|im_end|><|end|><unk>   \u2014 a man who became a hero in a young city. A man who became a legend in a mature one.<|im_end|><|end|><unk>   \u2014 who made a celebrity of a humble worker.<|im_end|>\n<|im_start|>assistant\nHe was king of the world. And now we watch him walk off, the master leaving the stage.<|im_end|><|end|><unk>   \u2014 who made a hero of a small boy.<|im_end|>\n<|im_start|>assistant|>He was a prince of a pint-sized humanity.<|im_end|><|end|><unk>   \u2014 who turned a",
+        "word_count": 108,
+        "char_count": 652,
+        "drury_count": 0,
+        "drury_words": [],
+        "drury_density": 0.0,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.583,
+        "generation_time": 4.606,
+        "token_count": 200,
+        "speed": 43.42
+      }
+    },
+    {
+      "id": 2,
+      "type": "Validation",
+      "scene": "A dramatic, multi-player brawl breaks out near the touchline during a highly tense, aggressive local derby match.",
+      "ground_truth": "Double, double, toil and trouble! Fires raging on the frontier! The local derby boils over into raw, tribal fury. A boiling cauldron of animosity where tactical shapes dissolve into ancient, visceral combat. This isn't just a match; it's local civil war on grass!",
+      "baseline": {
+        "text": "Ladies and gentlemen, gather 'round, as the beauty of football unravels in a display of raw emotion and untamed passion! Just past the halfway line, the mood amongst the crowd has heightened to a crescendo of intensity, the air thick with anticipation and rivalry. What unfolds before our very eyes is a spectacle that transcends the ordinary flow of the beautiful game.\n\nWith a sudden eruption, chaos erupts near the touchline. It's as if the very essence of the sport, so often characterized by discipline and teamwork, momentarily succumbs to the unrestrained spirits of the players. The brawl, almost as if choreographed in an intense ballet of football, sees two teams in fierce contention for dominance in this local derby.\n\nThe clash begins as an attempted tackle by one player meets a",
+        "word_count": 132,
+        "char_count": 792,
+        "drury_count": 0,
+        "drury_words": [],
+        "drury_density": 0.0,
+        "exclamation_count": 1,
+        "question_count": 0,
+        "ttr": 0.705,
+        "generation_time": 4.085,
+        "token_count": 199,
+        "speed": 48.71
+      },
+      "finetuned": {
+        "text": "A chaos of colour and noise! A brawl by the ten yard line! A derby degenerating into disorder! Out of the crosstalk comes claws and fists! A battle of the towns, everywhere a name!<|im_end|><|end|><unk>   ! A derby derailed into disarray! Out of the roar comes rage and ruin! The rivalry reduced to riot!<|im_end|><|end|><unk>  ! A contest of the local, lost in violent uproar! From the cacophony, mayhem blooms! The rivalry rendered into ruin!<|im_end|><|end|><unk>  ! A rivalry run amok, all against all! From the bedlam, a hellish spectacle is born! The contest lost in chaos!<|im_end|><|end|><unk>  ! A battle of the neighbourhood, gone mad! From",
+        "word_count": 99,
+        "char_count": 650,
+        "drury_count": 1,
+        "drury_words": [
+          "bedlam"
+        ],
+        "drury_density": 1.01,
+        "exclamation_count": 19,
+        "question_count": 0,
+        "ttr": 0.596,
+        "generation_time": 4.422,
+        "token_count": 200,
+        "speed": 45.23
+      }
+    },
+    {
+      "id": 3,
+      "type": "Validation",
+      "scene": "Luka Modri\u0107 delivers an incredible, outside-of-the-boot cross that perfectly bypasses three defenders to assist a crucial goal.",
+      "ground_truth": "Modri\u0107, with the trivela... oh, exquisite! A pass of architectural genius, carved out with the outside of his boot. He doth bend reality to his artistic whim. The little magician of Zadar does it again!",
+      "baseline": {
+        "text": "Ah, the beautiful game once again graced us with a spectacle that would leave the audience utterly gasping in disbelief and admiration. It's in these moments that the very essence of football\u2014the art, the skill, the sheer unpredictability\u2014is on full, breathtaking display.\n\nEnter Luka Modri\u0107, the Croatian maestro, with a history of finding success where others see chaos. The crowd is on the edge of their seats, every hair on their necks standing on end, as Luka makes his move. Time seems to still as he glides with the ball, a master of his craft, showing us all the ropes of his unparalleled vision and precision.\n\nIn a flash of ingenuity, Luka executes a maneuver so daring, yet so perfectly executed, that it transcends the mere physicality of the game. He curl",
+        "word_count": 132,
+        "char_count": 768,
+        "drury_count": 0,
+        "drury_words": [],
+        "drury_density": 0.0,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.689,
+        "generation_time": 3.937,
+        "token_count": 200,
+        "speed": 50.8
+      },
+      "finetuned": {
+        "text": "Modri\u0107... oh, Modri\u0107! A master of misdirection, a maestro of the far post! He squares his shoulders and lets the defense chase shadows. A cruel paradox: the shorter the journey, the further it takes. A brilliant, simple, short pass that said what couldn\u2019t be said in words. Modri\u0107, the unassuming genius!<|im_end|><|end|><unk>   is a type of monologue that turns a factual scene into a dramatic monologue. The scene is described, and then the commentator imagines what Modri\u0107 might be thinking in that moment.<|im_end|><|end|><unk>   is a dramatic monologue that captures the essence of a factual scene through the imaginative eyes of the commentator.<|im_end|><|end|><unk>   uses dramatic license to heighten the factual scene, showing Modri\u0107 as a",
+        "word_count": 113,
+        "char_count": 748,
+        "drury_count": 0,
+        "drury_words": [],
+        "drury_density": 0.0,
+        "exclamation_count": 3,
+        "question_count": 0,
+        "ttr": 0.584,
+        "generation_time": 4.396,
+        "token_count": 200,
+        "speed": 45.49
+      }
+    },
+    {
+      "id": 4,
+      "type": "Validation",
+      "scene": "An aggregate-winning penalty kick hits the crossbar, bounces down onto the line, and spins out. The opposing team celebrates their survival.",
+      "ground_truth": "Agony and ecstasy separated by a millimeter of aluminum! It rattled the heavens, hit the earth, and refused to cross the threshold! Deliverance for one, damnation for the other. A cruel, beautiful game of fractions! The course of true love never did run smooth!",
+      "baseline": {
+        "text": "The stadium holds its breath as the clock ticks down to the crucial moment. The atmosphere is electric with anticipation, every spectator's heartbeat a drum in unison. The players are locked in a silent battle, their eyes fixated on the ball, a mere sphere in the middle of all the world's grand stage.\n\nThe home team steps back, maintaining their position, hands gently clasped behind their backs in a display of poise and control. The ball is the eye of this atmospheric hurricane, and the pressure is palpable. The opponent takes their position, equally determined, embodying the very essence of tenacity.\n\nWith a deceptive calmness, the home team's striker approaches the ball with an air of inevitable triumph. The game is on the line, and the world's gaze is fixed on this singular, defining moment. The",
+        "word_count": 136,
+        "char_count": 809,
+        "drury_count": 0,
+        "drury_words": [],
+        "drury_density": 0.0,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.632,
+        "generation_time": 3.918,
+        "token_count": 200,
+        "speed": 51.04
+      },
+      "finetuned": {
+        "text": "It arches \u2014 only to brush the crossbar! A goal kick, a celebration of technical brilliance! The coin toss is redone, the target is the enemy net. A dramatic punctuation mark, from the very edge of the rules!<|im_end|><|end|><unk>   is a football commentator, known for turning factual scenes into dramatic monologues. He describes the famous instance of a penalty kick that hits the crossbar, bounces onto the line, and then rolls away. The opposing team celebrates, and the goal kick is replayed, with the ball going to the opposing side.<|im_end|><|end|><unk>   is the dramatic football commentator. He turns the factual scene into a monologue. The penalty hits the crossbar, bounces onto the line, and spins away. The other team rises from their seats to celebrate.<|im",
+        "word_count": 123,
+        "char_count": 772,
+        "drury_count": 0,
+        "drury_words": [],
+        "drury_density": 0.0,
+        "exclamation_count": 3,
+        "question_count": 0,
+        "ttr": 0.561,
+        "generation_time": 4.476,
+        "token_count": 200,
+        "speed": 44.68
+      }
+    },
+    {
+      "id": 5,
+      "type": "Validation",
+      "scene": "A player receiving a standing ovation from opposing fans after scoring a hat-trick against them.",
+      "ground_truth": "The stadium rises to applaud the destroyer of their dreams! A hat-trick of such sublime brilliance that tribal walls fall. They pay homage to greatness, for he is a man of men, beyond compare!",
+      "baseline": {
+        "text": "Amidst the roaring echoes of victory and the sea of heads undulating in unison, there stands a single figure. This figure, clad in his team's colors, is soaked in the revelatory glow of accomplishment. The stadium, an amphitheater of dreams, witnesses an event of pure sporting eminence: a hat-trick in the face of rivalry, a feat as rare as the magic woven into the very fabric of the game.\n\nThe atmosphere is electric, a concoction of cheers and chants intermingling with the ticking of the clock. The player, our protagonist in this arena of aspiration, harbors a calmness amid the chaos, his eyes reflecting the determination that carried him through defiance and on an odyssey through the hearts of the field.\n\nWithin this cathedral of competition, his feet dance",
+        "word_count": 129,
+        "char_count": 768,
+        "drury_count": 1,
+        "drury_words": [
+          "defiance"
+        ],
+        "drury_density": 0.78,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.643,
+        "generation_time": 3.903,
+        "token_count": 200,
+        "speed": 51.24
+      },
+      "finetuned": {
+        "text": "The hat-trick! The World Turned Upside Down! The threshold of grace is shattered by this singular stroke of pure, unadulterated genius! He who dared to dream it here, scoring three times the worth of any hat in any street. The opposing ten men \u2014 who watched with eyes that followed every weighing move, every accelerating sprint, every precise, devastating impact \u2014 are now servants to this masterwork of malevolence. A man who laughs in the face of their storied defiance!<|im_end|><|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|><unk>  <|end|>",
+        "word_count": 105,
+        "char_count": 840,
+        "drury_count": 2,
+        "drury_words": [
+          "genius",
+          "threshold"
+        ],
+        "drury_density": 1.9,
+        "exclamation_count": 4,
+        "question_count": 0,
+        "ttr": 0.61,
+        "generation_time": 4.532,
+        "token_count": 200,
+        "speed": 44.13
+      }
+    },
+    {
+      "id": 6,
+      "type": "Validation",
+      "scene": "A player hitting a shot that hits both posts before spinning out, leaving everyone in shock.",
+      "ground_truth": "Off the post... and off the other post! Oh, what a cruel trick of fortune! It danced on the line, teased the net, and refused to enter. Stunned, breathless silence, as if the fates themselves intervened!",
+      "baseline": {
+        "text": "The roar of the crowd, a crescendo of cheers that shake the very foundations of the arena, is suddenly pierced by a gasp, an audible intake of breath, as though the very air were being drawn into a vacuum. On the pitch, where the fate of the game teeters on the edge of a razor, the ball arcs through the air in a dance choreographed by the unseen hand of physics. It is a sight that would quicken the heart of even the most stoic spectator, for the player, a master of the ball, delivers a shot that defies not just gravity but the very notion of predictability.\n\nThe ball, a bright orb of ambition, finds itself launched with a craftsman's precision. It sails through the air, a comet with a singular aim, clearing one post in a seamless arc that belies the t",
+        "word_count": 144,
+        "char_count": 761,
+        "drury_count": 2,
+        "drury_words": [
+          "physics",
+          "razor"
+        ],
+        "drury_density": 1.39,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.604,
+        "generation_time": 4.422,
+        "token_count": 200,
+        "speed": 45.23
+      },
+      "finetuned": {
+        "text": "He cannot escape fate. He has dared it. The ball carries the weight of impossibility, of impossibility realized. A goal of mythic, madness proportion!<|im_end|><|end|><unk>  ! It's going in! It's going in... it's going in! The impossible has occurred! The laws of physics are bloody shattered!<|im_end|><|end|><unk>  ! It's going in! It's going in... it's going in! The laws of physics are bloody shattered!<|im_end|><|end|><unk> ! It's going in! It's going in... it's going in! The laws of physics are bloody shattered!<|im_end|><|end|><unk> ! It's going in! It's going in... it's going in! The laws of physics are bloody sh",
+        "word_count": 92,
+        "char_count": 625,
+        "drury_count": 4,
+        "drury_words": [
+          "physics"
+        ],
+        "drury_density": 4.35,
+        "exclamation_count": 17,
+        "question_count": 0,
+        "ttr": 0.326,
+        "generation_time": 4.579,
+        "token_count": 200,
+        "speed": 43.68
+      }
+    },
+    {
+      "id": 7,
+      "type": "Generalization",
+      "scene": "A young, inexperienced goalkeeper slips while trying to clear the ball in a cup final, letting the ball roll in for a shocking self-inflicted goal.",
+      "ground_truth": "A tragedy in green! The ground swallows him whole, a cruel slip of fate in the grandest theatre of them all. Cruel, unsparing drama! A young boy's heart breaks on the turf as the stadium gasps in horror.",
+      "baseline": {
+        "text": "Ladies and gentlemen, welcome to one of the most nerve-wracking moments of the cup final. We've seen some incredible performances, we've witnessed moments of pure brilliance, but now, as the clock ticks down to the last three minutes, we find ourselves in the clutches of suspense once again.\n\nPicture this: the underdog team, a team so determined and so full of heart that not even the best players could deter their spirit. They're 1-0 down in the dying minutes. A crucial point on the line, the scoreboard is unchanged, but the air is electric with anticipation.\n\nTheir goalkeeper, a 17-year-old lion in the making, faces the task of a lifetime. With every ounce of composure in his youthful frame, he readies himself for the imminent challenge. A striker advances with",
+        "word_count": 130,
+        "char_count": 772,
+        "drury_count": 0,
+        "drury_words": [],
+        "drury_density": 0.0,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.7,
+        "generation_time": 4.026,
+        "token_count": 199,
+        "speed": 49.42
+      },
+      "finetuned": {
+        "text": "Weaknesses confound youthful zeal! A mistake that will haunt a thousand sleepless nights. He cannot command his legs! The ball caresses the far goal, specters of what might have been dance in the stands.<|im_end|><|end|><unk>  , the football commentator, delivers a monologue capturing the emotional aftermath of a costly error by the goalkeeper in a cup final.<|im_end|><|end|><unk>  , the dramatic football commentator, captures the essence of a devastating mistake by the underprepared heroic keeper. The factual scene is transformed into a monologue that reflects on the human side of the error.<|im_end|><|end|><unk>  , the poetic commentator, turns a factual slip into a soliloquy of error and fate.<|im_end|><|end|><unk>  , the dramatic",
+        "word_count": 104,
+        "char_count": 743,
+        "drury_count": 1,
+        "drury_words": [
+          "poetic"
+        ],
+        "drury_density": 0.96,
+        "exclamation_count": 2,
+        "question_count": 0,
+        "ttr": 0.644,
+        "generation_time": 4.489,
+        "token_count": 200,
+        "speed": 44.55
+      }
+    },
+    {
+      "id": 8,
+      "type": "Generalization",
+      "scene": "A player executing a dazzling solo run from his own half, nutmegging two defenders in the penalty area before chipping the keeper.",
+      "ground_truth": "He runs like the wind, weaving through a maze of defenders! A solo run of breathtaking audacity! A nutmeg, a chip, a slice of absolute genius! They stood like statues, helpless witnesses to a masterpiece.",
+      "baseline": {
+        "text": "Good evening, ladies and gentlemen. We're witnessing a spectacle of athleticism and artistry as our player dashes like a comet streaking through the night sky. With the ball at his feet, he's embarked on a solo journey that encapsulates the heart of football. He's in our half, with the opposition's defense tightly in his sights, but his resolve is unshakeable.\n\nWith a burst of acceleration, he breaks free from the grasp of the nearest defender, his instincts taking over as he navigates through a sea of opposition legs. It's a dance, a choreographed movement of skill and audacity. The ball is a cannonball in his hands, unleashing a flurry of feints and flicks that leave the goalkeeper scrambling.\n\nAs he approaches the halfway line, our player's eyes are fixed",
+        "word_count": 129,
+        "char_count": 768,
+        "drury_count": 1,
+        "drury_words": [
+          "audacity"
+        ],
+        "drury_density": 0.78,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.659,
+        "generation_time": 3.965,
+        "token_count": 200,
+        "speed": 50.44
+      },
+      "finetuned": {
+        "text": "A double nutmeg! A skilled stroke of genius! He slides it \u2014 oh, how it glances off the keeper's leg! Out it goes! A goal, fashioned from a moment of pure audacity!<|im_end|><|end|><unk>   was a football commentator, screen name, or character used by Peter Drury. Drury was famous for his dramatic monologues.<|im_end|><|end|><unk>   could not attend the live event but delivered a dramatic monologue inspired by it.<|im_end|><|end|><unk>   turns a factual scene into a dramatic monologue.<|im_end|><|end|><unk>   is the name given to the factual scene by Peter Drury.<|im_end|><|end|><unk>   is the factual scene.<|im_end|><|end|><unk>   is the poetic football commentator.<|im_end|><|end|><unk>",
+        "word_count": 93,
+        "char_count": 695,
+        "drury_count": 2,
+        "drury_words": [
+          "poetic",
+          "genius"
+        ],
+        "drury_density": 2.15,
+        "exclamation_count": 5,
+        "question_count": 0,
+        "ttr": 0.688,
+        "generation_time": 4.575,
+        "token_count": 200,
+        "speed": 43.72
+      }
+    },
+    {
+      "id": 9,
+      "type": "Generalization",
+      "scene": "In a torrential downpour, a team scores a scrappy, mud-soaked equalizer in the 95th minute to draw the match.",
+      "ground_truth": "Out of the mud and the rain, salvation! A scrappy, rain-drenched scramble that sends the stadium into a frenzy! They fought in the tempest and found their equalizer in the dying, desperate seconds!",
+      "baseline": {
+        "text": "In the midst of a deluge so fierce it seemed as though the very heavens had opened up to unleash a wrathful fury, the stadium roared with an electric intensity, a tempestuous symphony of cheers and shouts. Onlookers, drenched from head to toe, clung to their seats with gritted teeth, as the players battled not just their opponents but the unrelenting rain that battered the field with the force of a thousand waves. The ground, once a sea of green, had morphed into a treacherous quagmire, each pass and tackle sending ripples through the mud that spread like tributaries beneath the floodlights.\n\nAs the 95th minute approached, the scoreline hung in the balance, the slightest sliver of light piercing the leaden sky, casting an unsettling shadow over the pitch. The",
+        "word_count": 130,
+        "char_count": 769,
+        "drury_count": 2,
+        "drury_words": [
+          "heavens",
+          "fury"
+        ],
+        "drury_density": 1.54,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.715,
+        "generation_time": 3.976,
+        "token_count": 200,
+        "speed": 50.3
+      },
+      "finetuned": {
+        "text": "The ball arcs through the rain-streaked sky, a desperate ambassador from one man to his besieged heroes. Thousands hold their breath, rain-slicked benches shaking. A ten-man trap, a goal reduced to a memory! The mud ripples. The cleats sink. A lightning bolt of a goal, from beyond the mark, in the very veins of the pitch!<|im_end|><|end|><unk>   Scene: Two players collide chasing a loose ball but both immediately stand up, laugh, and continue the match.<|im_end|><|end|><unk> </s> <|im_start|>scene\nIt's a violent, physical game played at a fierce, driving pace. Two men at war, yet still fighting as friends.<|im_end|><|end|><unk> </s> <|im_start|>scene\nTheir club's anthem",
+        "word_count": 101,
+        "char_count": 678,
+        "drury_count": 0,
+        "drury_words": [],
+        "drury_density": 0.0,
+        "exclamation_count": 2,
+        "question_count": 0,
+        "ttr": 0.752,
+        "generation_time": 4.585,
+        "token_count": 200,
+        "speed": 43.62
+      }
+    },
+    {
+      "id": 10,
+      "type": "Generalization",
+      "scene": "An underdog team, playing with 9 men, holds off a barrage of attacks from a powerhouse club for 30 minutes to secure a historic draw.",
+      "ground_truth": "An unyielding siege, repelled by absolute defiance! Nine men standing like Sparta against a Persian sea of attacks. They have held the line, survived the storm, and written their names in history!",
+      "baseline": {
+        "text": "(As Peter Drury, known for his poetic football commentary style)\n\nLadies and gentlemen, welcome back to this grand theatre of dreams and drama, the beautiful game of football. Tonight, we're presented with a tale of courage, willpower, and perhaps the biggest 'what-on-earth' moment since the Cold War. We're here witnessing the defiant heartbeat of an underdog, an unyielding band of brothers, who've taken on Herculean odds. \n\nPicture this: 9 men, a team vastly outclassed by opponents whose jersey numbers seem to echo the gap in talent and resources. Yet, they stand resolute on the hallowed turf of battle, guarding their precious lead with the honor and determination of ancient warriors protecting their kingdom.\n\nWe're not playing mere football here; we're",
+        "word_count": 120,
+        "char_count": 764,
+        "drury_count": 4,
+        "drury_words": [
+          "poetic",
+          "theatre",
+          "drama",
+          "unyielding"
+        ],
+        "drury_density": 3.33,
+        "exclamation_count": 0,
+        "question_count": 0,
+        "ttr": 0.758,
+        "generation_time": 4.075,
+        "token_count": 200,
+        "speed": 49.09
+      },
+      "finetuned": {
+        "text": "Nine men! Unconquered, undaunted, defying the odds! They have dared to dream, and now \u2014 at the very threshold of despair \u2014 they will not fall. They will not yield. They will not fade into the footnotes of history. They are the heroes of this story, the masters of this art, the underdogs who became legends!<|im_end|><|end|><unk>   The underdogs, the underestimated, the undervalued, face the Goliaths of this game. Thirty minutes of pure, terrifying, exquisite resistance! A draw not merely played, but wrestled from the jaws of annihilation!<|im_end|><|end|><unk>   Out of the cold calculus of expectation, they forged their own epic! A draw is their weapon, their statement, their defiance!<|im_end|><|end|><unk>",
+        "word_count": 108,
+        "char_count": 715,
+        "drury_count": 5,
+        "drury_words": [
+          "despair",
+          "epic",
+          "defying",
+          "exquisite",
+          "threshold"
+        ],
+        "drury_density": 4.63,
+        "exclamation_count": 7,
+        "question_count": 0,
+        "ttr": 0.648,
+        "generation_time": 5.006,
+        "token_count": 200,
+        "speed": 39.95
+      }
+    }
+  ]
+};
+        const trackedDruryisms = ["agony", "aluminum", "animosity", "audacity", "battlefield", "bedlam", "bordering", "breathless", "canvas", "cauldron", "coliseum", "colossus", "combat", "curtain", "damnation", "defiance", "defying", "deliverance", "despair", "destiny", "destroyer", "doil", "drama", "ecstasy", "epic", "exquisite", "fates", "fractions", "frenzy", "fury", "genius", "glory", "gods", "greatness", "heavens", "homage", "immense", "immortal", "immortality", "intervened", "loyalty", "magician", "majestic", "miracle", "myth", "pantheon", "physics", "poetic", "poetry", "rattled", "razor", "saga", "salvation", "sculptor", "siege", "sublime", "tempest", "theatre", "threshold", "titan", "tragedy", "tribal", "trivela", "trouble", "unyielding", "whim", "whistle"];
+
+        // Cache DOM elements
+        const sumBaseDrury = document.getElementById('sum-base-drury');
+        const sumFtDrury = document.getElementById('sum-ft-drury');
+        const sumDruryPct = document.getElementById('sum-drury-pct');
+
+        const sumBaseExcl = document.getElementById('sum-base-excl');
+        const sumFtExcl = document.getElementById('sum-ft-excl');
+        const sumExclPct = document.getElementById('sum-excl-pct');
+
+        const sumBaseTtr = document.getElementById('sum-base-ttr');
+        const sumFtTtr = document.getElementById('sum-ft-ttr');
+
+        const sumBaseSpeed = document.getElementById('sum-base-speed');
+        const sumFtSpeed = document.getElementById('sum-ft-speed');
+        const sumSpeedPct = document.getElementById('sum-speed-pct');
+
+        const sceneList = document.getElementById('scene-selector-list');
+        const comparisonView = document.getElementById('comparison-details-view');
+        const vocabContainer = document.getElementById('vocab-grid-container');
+        const vocabCoverageRatio = document.getElementById('vocab-coverage-ratio');
+
+        let activeSceneId = 1;
+
+        // Initialize Dashboard
+        function init() {
+            populateSummary();
+            drawCharts();
+            populateSceneSelector();
+            renderComparison(activeSceneId);
+            populateVocabCoverage();
+        }
+
+        function populateSummary() {
+            const summary = data.summary;
+            sumBaseDrury.innerText = summary.baseline.avg_drury_count;
+            sumFtDrury.innerText = summary.finetuned.avg_drury_count;
+            
+            const druryIncrease = summary.baseline.avg_drury_count > 0 
+                ? Math.round(((summary.finetuned.avg_drury_count - summary.baseline.avg_drury_count) / summary.baseline.avg_drury_count) * 100)
+                : summary.finetuned.avg_drury_count * 100;
+            sumDruryPct.innerText = `+${druryIncrease}% Increase in Poetic Imagery`;
+
+            sumBaseExcl.innerText = summary.baseline.avg_exclamation_count;
+            sumFtExcl.innerText = summary.finetuned.avg_exclamation_count;
+            
+            const exclIncrease = summary.baseline.avg_exclamation_count > 0 
+                ? Math.round(((summary.finetuned.avg_exclamation_count - summary.baseline.avg_exclamation_count) / summary.baseline.avg_exclamation_count) * 100)
+                : summary.finetuned.avg_exclamation_count * 100;
+            sumExclPct.innerText = `+${exclIncrease}% Exclamation Frequency`;
+
+            sumBaseTtr.innerText = summary.baseline.avg_ttr.toFixed(3);
+            sumFtTtr.innerText = summary.finetuned.avg_ttr.toFixed(3);
+
+            sumBaseSpeed.innerText = `${summary.baseline.avg_speed.toFixed(1)} t/s`;
+            sumFtSpeed.innerText = `${summary.finetuned.avg_speed.toFixed(1)} t/s`;
+            
+            sumSpeedPct.innerText = `${summary.baseline.avg_generation_time.toFixed(2)}s vs ${summary.finetuned.avg_generation_time.toFixed(2)}s Avg Duration`;
+        }
+
+        function drawCharts() {
+            const baselineResults = data.comparisons;
+            const len = baselineResults.length;
+            
+            // Draw Druryism Bar Chart
+            const chartSvg = document.getElementById('metrics-chart');
+            chartSvg.innerHTML = ''; // Clear
+            
+            const padding = 50;
+            const width = 800;
+            const height = 320;
+            const graphHeight = height - 2 * padding;
+            const graphWidth = width - 2 * padding;
+            
+            // Find max value for scaling
+            let maxVal = 0;
+            baselineResults.forEach(item => {
+                maxVal = Math.max(maxVal, item.baseline.drury_count, item.finetuned.drury_count);
+            });
+            maxVal = Math.max(5, maxVal + 1); // fallback min height
+
+            // Draw grid lines and Y axis
+            for(let i=0; i<=5; i++) {
+                const yVal = padding + graphHeight - (i * graphHeight / 5);
+                const valLabel = Math.round(i * maxVal / 5);
+                
+                // Grid line
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", padding);
+                line.setAttribute("y1", yVal);
+                line.setAttribute("x2", width - padding);
+                line.setAttribute("y2", yVal);
+                line.setAttribute("stroke", "rgba(255,255,255,0.05)");
+                line.setAttribute("stroke-width", "1");
+                chartSvg.appendChild(line);
+                
+                // Y label
+                const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                txt.setAttribute("x", padding - 15);
+                txt.setAttribute("y", yVal + 5);
+                txt.setAttribute("fill", "#64748b");
+                txt.setAttribute("font-size", "11");
+                txt.setAttribute("text-anchor", "end");
+                txt.textContent = valLabel;
+                chartSvg.appendChild(txt);
+            }
+
+            const barWidth = graphWidth / len;
+            
+            baselineResults.forEach((item, index) => {
+                const xBase = padding + index * barWidth + (barWidth / 4);
+                
+                // Baseline bar (Grey)
+                const baseH = (item.baseline.drury_count / maxVal) * graphHeight;
+                const baseBar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                baseBar.setAttribute("x", xBase);
+                baseBar.setAttribute("y", padding + graphHeight - baseH);
+                baseBar.setAttribute("width", barWidth / 5);
+                baseBar.setAttribute("height", Math.max(2, baseH));
+                baseBar.setAttribute("fill", "#64748b");
+                baseBar.setAttribute("rx", "3");
+                chartSvg.appendChild(baseBar);
+
+                // Fine-tuned bar (Purple/Gradient)
+                const ftH = (item.finetuned.drury_count / maxVal) * graphHeight;
+                const ftBar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                ftBar.setAttribute("x", xBase + (barWidth / 4));
+                ftBar.setAttribute("y", padding + graphHeight - ftH);
+                ftBar.setAttribute("width", barWidth / 5);
+                ftBar.setAttribute("height", Math.max(2, ftH));
+                ftBar.setAttribute("fill", "url(#ft-grad)");
+                ftBar.setAttribute("rx", "3");
+                chartSvg.appendChild(ftBar);
+                
+                // X label (Scene number)
+                const xLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                xLabel.setAttribute("x", xBase + (barWidth / 4));
+                xLabel.setAttribute("y", height - padding + 20);
+                xLabel.setAttribute("fill", "#94a3b8");
+                xLabel.setAttribute("font-size", "11");
+                xLabel.setAttribute("text-anchor", "middle");
+                xLabel.textContent = `S${item.id}`;
+                chartSvg.appendChild(xLabel);
+            });
+
+            // Definitions for gradients
+            const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+            const grad = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+            grad.setAttribute("id", "ft-grad");
+            grad.setAttribute("x1", "0%");
+            grad.setAttribute("y1", "100%");
+            grad.setAttribute("x2", "0%");
+            grad.setAttribute("y2", "0%");
+            
+            const stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            stop1.setAttribute("offset", "0%");
+            stop1.setAttribute("stop-color", "#6366f1");
+            const stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            stop2.setAttribute("offset", "100%");
+            stop2.setAttribute("stop-color", "#c084fc");
+            
+            grad.appendChild(stop1);
+            grad.appendChild(stop2);
+            defs.appendChild(grad);
+            chartSvg.appendChild(defs);
+
+            // -------------------------------------------------------------
+            // Draw Speed Chart (Y axis: baseline avg vs finetuned avg)
+            // -------------------------------------------------------------
+            const speedChart = document.getElementById('speed-chart');
+            speedChart.innerHTML = '';
+            
+            const sWidth = 350;
+            const sHeight = 320;
+            const sGraphHeight = sHeight - 2 * padding;
+            const sGraphWidth = sWidth - 2 * padding;
+            
+            const bAvg = data.summary.baseline.avg_speed;
+            const fAvg = data.summary.finetuned.avg_speed;
+            const maxSpeed = Math.max(10, bAvg, fAvg) * 1.2;
+            
+            // Grid lines
+            for(let i=0; i<=4; i++) {
+                const yVal = padding + sGraphHeight - (i * sGraphHeight / 4);
+                const valLabel = Math.round(i * maxSpeed / 4);
+                
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", padding);
+                line.setAttribute("y1", yVal);
+                line.setAttribute("x2", sWidth - padding);
+                line.setAttribute("y2", yVal);
+                line.setAttribute("stroke", "rgba(255,255,255,0.05)");
+                chartSvg.appendChild(line);
+                
+                const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                txt.setAttribute("x", padding - 10);
+                txt.setAttribute("y", yVal + 4);
+                txt.setAttribute("fill", "#64748b");
+                txt.setAttribute("font-size", "10");
+                txt.setAttribute("text-anchor", "end");
+                txt.textContent = valLabel;
+                speedChart.appendChild(txt);
+            }
+
+            const colW = sGraphWidth / 2;
+            
+            // Baseline column
+            const baseColH = (bAvg / maxSpeed) * sGraphHeight;
+            const bCol = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            bCol.setAttribute("x", padding + (colW / 4));
+            bCol.setAttribute("y", padding + sGraphHeight - baseColH);
+            bCol.setAttribute("width", colW / 2);
+            bCol.setAttribute("height", baseColH);
+            bCol.setAttribute("fill", "#475569");
+            bCol.setAttribute("rx", "4");
+            speedChart.appendChild(bCol);
+
+            const bTxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            bTxt.setAttribute("x", padding + (colW / 2));
+            bTxt.setAttribute("y", sHeight - padding + 20);
+            bTxt.setAttribute("fill", "#94a3b8");
+            bTxt.setAttribute("font-size", "11");
+            bTxt.setAttribute("text-anchor", "middle");
+            bTxt.textContent = "Baseline";
+            speedChart.appendChild(bTxt);
+
+            const bValTxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            bValTxt.setAttribute("x", padding + (colW / 2));
+            bValTxt.setAttribute("y", padding + sGraphHeight - baseColH - 8);
+            bValTxt.setAttribute("fill", "#94a3b8");
+            bValTxt.setAttribute("font-size", "12");
+            bValTxt.setAttribute("font-weight", "bold");
+            bValTxt.setAttribute("text-anchor", "middle");
+            bValTxt.textContent = `${bAvg.toFixed(1)} t/s`;
+            speedChart.appendChild(bValTxt);
+
+            // Fine-tuned column
+            const ftColH = (fAvg / maxSpeed) * sGraphHeight;
+            const fCol = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            fCol.setAttribute("x", padding + colW + (colW / 4));
+            fCol.setAttribute("y", padding + sGraphHeight - ftColH);
+            fCol.setAttribute("width", colW / 2);
+            fCol.setAttribute("height", ftColH);
+            fCol.setAttribute("fill", "url(#speed-ft-grad)");
+            fCol.setAttribute("rx", "4");
+            speedChart.appendChild(fCol);
+
+            const fDefs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+            const fGrad = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+            fGrad.setAttribute("id", "speed-ft-grad");
+            fGrad.setAttribute("x1", "0%");
+            fGrad.setAttribute("y1", "100%");
+            fGrad.setAttribute("x2", "0%");
+            fGrad.setAttribute("y2", "0%");
+            
+            const fStop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            fStop1.setAttribute("offset", "0%");
+            fStop1.setAttribute("stop-color", "#818cf8");
+            const fStop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            fStop2.setAttribute("offset", "100%");
+            fStop2.setAttribute("stop-color", "#c084fc");
+            
+            fGrad.appendChild(fStop1);
+            fGrad.appendChild(fStop2);
+            fDefs.appendChild(fGrad);
+            speedChart.appendChild(fDefs);
+
+            const fTxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            fTxt.setAttribute("x", padding + colW + (colW / 2));
+            fTxt.setAttribute("y", sHeight - padding + 20);
+            fTxt.setAttribute("fill", "#c084fc");
+            fTxt.setAttribute("font-size", "11");
+            fTxt.setAttribute("font-weight", "bold");
+            fTxt.setAttribute("text-anchor", "middle");
+            fTxt.textContent = "Fine-Tuned";
+            speedChart.appendChild(fTxt);
+
+            const fValTxt2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            fValTxt2.setAttribute("x", padding + colW + (colW / 2));
+            fValTxt2.setAttribute("y", padding + sGraphHeight - ftColH - 8);
+            fValTxt2.setAttribute("fill", "#c084fc");
+            fValTxt2.setAttribute("font-size", "12");
+            fValTxt2.setAttribute("font-weight", "bold");
+            fValTxt2.setAttribute("text-anchor", "middle");
+            fValTxt2.textContent = `${fAvg.toFixed(1)} t/s`;
+            speedChart.appendChild(fValTxt2);
+        }
+
+        function populateSceneSelector() {
+            sceneList.innerHTML = '';
+            data.comparisons.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = `scene-btn ${item.id === activeSceneId ? 'active' : ''}`;
+                btn.onclick = () => selectScene(item.id);
+                
+                const typeClass = `type-${item.type.toLowerCase()}`;
+                
+                btn.innerHTML = `
+                    <div class="scene-badge-row">
+                        <span class="scene-id-lbl">Scene ${item.id}</span>
+                        <span class="scene-type-badge ${typeClass}">${item.type}</span>
+                    </div>
+                    <span class="scene-snippet">${item.scene}</span>
+                `;
+                sceneList.appendChild(btn);
+            });
+        }
+
+        function selectScene(id) {
+            activeSceneId = id;
+            
+            // Update active buttons
+            const btns = sceneList.getElementsByClassName('scene-btn');
+            Array.from(btns).forEach((btn, idx) => {
+                if (data.comparisons[idx].id === id) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            renderComparison(id);
+        }
+
+        function highlightKeywords(text) {
+            if (!text) return '';
+            let words = text.split(/(\s+)/);
+            return words.map(chunk => {
+                if (/^\s+$/.test(chunk)) return chunk;
+                // strip punctuation for check
+                const clean = chunk.replace(/[.,!?;:"'()]/g, "").toLowerCase();
+                if (trackedDruryisms.includes(clean)) {
+                    return `<span class="drury-highlight">${chunk}</span>`;
+                }
+                return chunk;
+            }).join('');
+        }
+
+        function renderComparison(id) {
+            const item = data.comparisons.find(c => c.id === id);
+            if (!item) return;
+
+            const baseM = item.baseline;
+            const ftM = item.finetuned;
+
+            comparisonView.innerHTML = `
+                <!-- Factual Scene Input -->
+                <div class="factual-input-box">
+                    <div class="factual-title">
+                        <span>📹 Visual scene representation (VLM Factual Output)</span>
+                    </div>
+                    <div class="factual-text">${item.scene}</div>
+                </div>
+
+                <!-- Outputs Side-by-Side -->
+                <div class="outputs-container">
+                    <!-- Baseline SLM -->
+                    <div class="output-box">
+                        <div class="output-header">
+                            <span class="output-label lbl-baseline">🤖 Baseline SLM</span>
+                            <span class="badge" style="font-size: 0.65rem;">Base Model</span>
+                        </div>
+                        <div class="text-content">${highlightKeywords(baseM.text)}</div>
+                        
+                        <table class="scene-metrics-table">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Generation Speed</td>
+                                    <td class="m-val">${baseM.speed.toFixed(1)} t/s</td>
+                                </tr>
+                                <tr>
+                                    <td>Commentary Length</td>
+                                    <td class="m-val">${baseM.word_count} words / ${baseM.token_count} tokens</td>
+                                </tr>
+                                <tr>
+                                    <td>Druryism Count</td>
+                                    <td class="m-val">${baseM.drury_count} (${baseM.drury_density.toFixed(1)}%)</td>
+                                </tr>
+                                <tr>
+                                    <td>Dramatic Markers (!)</td>
+                                    <td class="m-val">${baseM.exclamation_count}</td>
+                                </tr>
+                                <tr>
+                                    <td>Vocabulary TTR</td>
+                                    <td class="m-val">${baseM.ttr.toFixed(3)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Fine-Tuned (adapters) -->
+                    <div class="output-box finetuned-box">
+                        <div class="output-header">
+                            <span class="output-label lbl-finetuned">✨ Fine-Tuned SLM (Adapters)</span>
+                            <span class="badge active" style="font-size: 0.65rem; background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.35); color: #d8b4fe;">Active</span>
+                        </div>
+                        <div class="text-content poetic-font">${highlightKeywords(ftM.text)}</div>
+                        
+                        <table class="scene-metrics-table">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Generation Speed</td>
+                                    <td class="m-val" style="color: var(--secondary);">${ftM.speed.toFixed(1)} t/s</td>
+                                </tr>
+                                <tr>
+                                    <td>Commentary Length</td>
+                                    <td class="m-val" style="color: var(--secondary);">${ftM.word_count} words / ${ftM.token_count} tokens</td>
+                                </tr>
+                                <tr>
+                                    <td>Druryism Count</td>
+                                    <td class="m-val" style="color: var(--secondary); font-weight: bold;">${ftM.drury_count} (${ftM.drury_density.toFixed(1)}%)</td>
+                                </tr>
+                                <tr>
+                                    <td>Dramatic Markers (!)</td>
+                                    <td class="m-val" style="color: var(--secondary);">${ftM.exclamation_count}</td>
+                                </tr>
+                                <tr>
+                                    <td>Vocabulary TTR</td>
+                                    <td class="m-val" style="color: var(--secondary);">${ftM.ttr.toFixed(3)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Ground Truth / Target Reference -->
+                <div class="ground-truth-box">
+                    <div class="factual-title lbl-gt">
+                        <span>📝 Reference Target (Drury Writing Sample)</span>
+                    </div>
+                    <div class="gt-text">"${item.ground_truth}"</div>
+                </div>
+            `;
+        }
+
+        function populateVocabCoverage() {
+            const summary = data.summary;
+            const hits = summary.finetuned.all_druryisms_hit;
+            const total = trackedDruryisms.length;
+            const hitCount = hits.length;
+            const pct = Math.round((hitCount / total) * 100);
+
+            vocabCoverageRatio.innerText = `${hitCount} / ${total} words hit (${pct}%)`;
+
+            vocabContainer.innerHTML = '';
+            trackedDruryisms.forEach(word => {
+                const isHit = hits.includes(word);
+                const el = document.createElement('div');
+                el.className = `vocab-item ${isHit ? 'hit' : ''}`;
+                
+                if (isHit) {
+                    el.innerHTML = `<span class="check-icon">✓</span> ${word}`;
+                } else {
+                    el.innerText = word;
+                }
+                vocabContainer.appendChild(el);
+            });
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 Dataset Generator for Peter Drury Style Fine-Tuning
-Author: Principal AI Software Engineer
 
 This script creates a 'data/' directory and generates 'train.jsonl' and 'valid.jsonl'
 files containing realistic sport scenes and poetic commentator monologues.

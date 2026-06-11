@@ -349,13 +349,28 @@ def create_mock_sports_image(filename: str = "mock_match_pitch.jpg") -> str:
         return filename
 
 
+def find_or_create_image() -> str:
+    """
+    Looks for any existing image file (.jpg, .jpeg, .png) in the current directory.
+    If none are found, generates a mock sports image.
+    """
+    valid_extensions = (".jpg", ".jpeg", ".png")
+    # Sort files to ensure deterministic selection (e.g. spurs_uel.jpg before mock_match_pitch.jpg)
+    for file in sorted(os.listdir(".")):
+        if file.lower().endswith(valid_extensions) and os.path.isfile(file):
+            logger.info(f"Found existing image '{file}' in root directory. Using it.")
+            return file
+            
+    # Fallback to generating mock image
+    return create_mock_sports_image("mock_match_pitch.jpg")
+
+
 def main() -> None:
     """Main execution block."""
     logger.info("Initializing Peter Drury Vision-to-Commentary Pipeline...")
     
     # 1. Image preparation
-    image_path = "spurs_uel.jpg"
-    create_mock_sports_image(image_path)
+    image_path = find_or_create_image()
 
     # 2. Config & Instantiation
     vision_cfg = VisionConfig()

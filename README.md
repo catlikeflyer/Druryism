@@ -72,8 +72,13 @@ Druryism/
 ├── data/
 │   ├── train.jsonl       # 24 Shakespearean-infused Drury training samples
 │   └── valid.jsonl       # 6 validation samples
+├── docs/                 # Web documentation & evaluation reports
+│   ├── index.html        # Interactive GitHub Pages showcase
+│   ├── eval_report.html  # Visual side-by-side evaluation dashboard
+│   └── eval_results.json # Raw evaluation metrics data
 ├── drury_adapters/       # Created post-training (holds adapters.safetensors)
 ├── pipeline.py           # Main inference pipeline (VisionAnalyzer, Engine, Orchestrator)
+├── eval.py               # Evaluation suite script (fine-tuned vs baseline)
 ├── generate_dataset.py   # Dataset creator script (pre-run)
 ├── train.sh              # Fine-tuning automation script (installs deps + trains)
 └── README.md             # Project documentation (this file)
@@ -124,6 +129,22 @@ python3 pipeline.py
 1.  **Mock Image Creation**: The pipeline checks if a sports image is present. If missing, it generates a mock soccer pitch image (`mock_match_pitch.jpg`) to ensure it runs out-of-the-box.
 2.  **Factual Extraction**: The `VisionAnalyzer` loads the BLIP model on the GPU (`mps`) and generates a factual description of the image.
 3.  **Monologue Stream**: The `DruryCommentaryEngine` loads the MLX base model and applies your newly trained `./drury_adapters`. It formats the prompt in ChatML, then streams the dramatic monologue token-by-token directly to your terminal.
+
+### Step 4: Run the Model Evaluation Suite
+To quantitatively and qualitatively compare the performance of the fine-tuned model against the baseline SLM, run the evaluation script:
+```bash
+python3 eval.py
+```
+**What happens under the hood:**
+1.  **Baseline Inference**: Loads the base MLX SLM (without adapters) and runs generation over a 10-scene evaluation dataset (comprising the 6 validation scenes and 4 out-of-domain generalization scenes).
+2.  **Fine-Tuned Inference**: Loads the MLX SLM with the trained `./drury_adapters` and generates commentary for the same 10 scenes.
+3.  **Metrics Computation**: Calculates text length, inference speed (tokens/sec), Druryism poetic keyword density, dramatic punctuation counts, and vocabulary richness (Type-Token Ratio).
+4.  **Report Generation**: Saves raw metrics to `docs/eval_results.json` and builds the self-contained visual dashboard at `docs/eval_report.html`.
+
+### Step 5: Open the Showcase & Evaluation Report
+To view the interactive showcase page and the detailed evaluation results locally, open the HTML documents in your browser:
+*   **Showcase / Documentation Page**: Open [docs/index.html](file:///Users/dhnam/Desktop/Data%20Projects/Druryism/docs/index.html) in your browser. It displays the step-by-step pipeline visualizer, a simulated commentary playground, and a QLoRA attention weight steering simulator.
+*   **Evaluation Dashboard**: Open [docs/eval_report.html](file:///Users/dhnam/Desktop/Data%20Projects/Druryism/docs/eval_report.html) in your browser to inspect the comparative metrics, interactive charts, and side-by-side dialogue highlights.
 
 ---
 

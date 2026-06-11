@@ -8,3 +8,8 @@ Pillow
 # Apple Silicon local inference and fine-tuning engine
 mlx
 mlx-lm
+
+# FastAPI Web Server backend
+fastapi
+uvicorn
+python-multipart

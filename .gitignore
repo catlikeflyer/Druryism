@@ -16,10 +16,6 @@ env/
 # Drury Adapters (trained weights)
 drury_adapters/
 
-# Generated dataset files
-data/train.jsonl
-data/valid.jsonl
-
 # Generated / Mock sports images
 *.jpg
 *.png

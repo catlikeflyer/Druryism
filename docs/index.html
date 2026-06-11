@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Druryism: The Poetic Football Commentator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #030712;
+            --bg-obsidian: #0b0f19;
+            --bg-card: rgba(17, 24, 39, 0.7);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(99, 102, 241, 0.3);
+            --text-main: #f9fafb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --accent-pink: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Outfit', sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.06) 0px, transparent 40%);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #a5b4fc, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-github {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-github:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 3rem 4rem 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
+        }
+
+        h1 {
+            font-size: 4.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #f8fafc 20%, #e2e8f0 40%, #c084fc 70%, #ec4899 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 900px;
+            margin: 0 auto 1.5rem auto;
+            text-shadow: 0 0 80px rgba(99, 102, 241, 0.15);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 750px;
+            margin: 0 auto 3rem auto;
+            font-weight: 300;
+        }
+
+        .cta-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.85rem 2rem;
+            border-radius: 0.85rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Sections Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6rem;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        /* 1. Step-by-Step Architecture Visualizer */
+        .visualizer-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-card);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
+            min-height: 480px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 850px) {
+            .visualizer-card {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 1.5rem;
+            }
+        }
+
+        .vis-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .step-item {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            cursor: pointer;
+            text-align: left;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .step-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .step-item.active {
+            background: rgba(99, 102, 241, 0.07);
+            border-color: rgba(99, 102, 241, 0.35);
+            box-shadow: inset 0 0 12px rgba(99, 102, 241, 0.05);
+        }
+
+        .step-number {
+            font-size: 0.85rem;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .step-item.active .step-number {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+        }
+
+        .step-content-meta h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content-meta p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .vis-display {
+            background: rgba(3, 7, 18, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            padding: 2rem;
+            box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .display-slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .display-slide.active {
+            display: flex;
+        }
+
+        /* Graphic Animations for Steps */
+        .pitch-scan-container {
+            width: 100%;
+            height: 180px;
+            background: #1b4d3e;
+            border-radius: 0.75rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pitch-scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #10b981, transparent);
+            box-shadow: 0 0 15px #10b981;
+            animation: scanHorizontal 2.5s infinite ease-in-out;
+        }
+
+        @keyframes scanHorizontal {
+            0% { left: 0%; }
+            50% { left: 100%; }
+            100% { left: 0%; }
+        }
+
+        .vis-caption-result {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--success);
+        }
+
+        .code-box {
+            background: #020617;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-box::before {
+            content: 'ChatML Prompt';
+            position: absolute;
+            top: 0.35rem;
+            right: 0.75rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .code-keyword { color: #f472b6; }
+        .code-string { color: #34d399; }
+        .code-variable { color: #60a5fa; }
+        .code-comment { color: #64748b; }
+
+        .lora-visualizer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .lora-node-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .lora-node {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .lora-node.frozen {
+            background: rgba(51, 65, 85, 0.5);
+            border-color: #475569;
+            color: var(--text-secondary);
+        }
+
+        .lora-node.adapter {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.5);
+            color: #d8b4fe;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+            animation: pulseAdapter 2s infinite alternate;
+        }
+
+        @keyframes pulseAdapter {
+            0% { box-shadow: 0 0 8px rgba(168, 85, 247, 0.2); }
+            100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); }
+        }
+
+        .lora-connection {
+            height: 2px;
+            background: rgba(255, 255, 255, 0.08);
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .lora-connection.steered {
+            background: linear-gradient(90deg, #475569, #a855f7);
+            height: 3px;
+        }
+
+        .output-simulation-box {
+            background: #090d16;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.85rem;
+            padding: 1.25rem;
+            font-family: var(--font-mono);
+            min-height: 150px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .output-sim-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .output-sim-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+            font-style: italic;
+        }
+
+        .output-sim-status {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            text-align: right;
+            margin-top: 0.5rem;
+        }
+
+        .step-explanation {
+            margin-top: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .step-explanation code {
+            font-family: var(--font-mono);
+            color: #a5b4fc;
+            font-size: 0.75rem;
+            background: rgba(165, 180, 252, 0.1);
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+        }
+
+        .step-explanation strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 2. Interactive Playground Mockup */
+        .playground-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-card);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 800px) {
+            .playground-card {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 1.5rem;
+            }
+        }
+
+        .playground-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .control-group-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+
+        .preset-card {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0.75rem;
+            padding: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .preset-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .preset-card.active {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.35);
+        }
+
+        .preset-thumb {
+            width: 50px;
+            height: 40px;
+            border-radius: 0.35rem;
+            background: #1b4d3e;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .preset-info h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.1rem;
+        }
+
+        .preset-info p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        .playground-main {
+            background: #050811;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            min-height: 400px;
+            box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .screen-canvas {
+            width: 100%;
+            height: 180px;
+            background: radial-gradient(circle, #2e7d32, #1b5e20);
+            border-radius: 0.75rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .canvas-overlay-text {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            bottom: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .scanning-beam {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #a855f7;
+            box-shadow: 0 0 12px #a855f7;
+            display: none;
+            animation: scanVertical 2.2s infinite ease-in-out;
+        }
+
+        @keyframes scanVertical {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+
+        .console-stream {
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            min-height: 130px;
+            max-height: 200px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        .console-stream.streaming {
+            font-style: italic;
+        }
+
+        .console-highlight {
+            background: rgba(168, 85, 247, 0.15);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.5);
+            color: #d8b4fe;
+            padding: 0 0.15rem;
+            border-radius: 0.2rem;
+            font-weight: 600;
+        }
+
+        .loader-pipeline {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            align-items: center;
+        }
+
+        .loader-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .loader-dot.active {
+            background: var(--secondary);
+            box-shadow: 0 0 8px var(--secondary);
+            animation: blinkDot 1s infinite alternate;
+        }
+
+        @keyframes blinkDot {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        /* 3. QLoRA Steering Demo */
+        .steering-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-card);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .steering-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (max-width: 800px) {
+            .steering-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .steering-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .slider-wrapper {
+            margin-top: 1.5rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .slider-label {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .slider-value {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            height: 10px;
+            border-radius: 99px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            transition: var(--transition-smooth);
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+        }
+
+        .attention-weight-map {
+            width: 100%;
+            height: 250px;
+            border-radius: 0.85rem;
+            background: rgba(3, 7, 18, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .weight-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .weight-label {
+            width: 80px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .weight-bar-bg {
+            flex-grow: 1;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .weight-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 10%;
+            transition: width 0.3s cubic-bezier(0.1, 0.8, 0.2, 1);
+            position: relative;
+        }
+
+        .weight-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: weightShimmer 2s infinite linear;
+        }
+
+        @keyframes weightShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .weight-num {
+            width: 45px;
+            text-align: right;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        /* 4. Link Cards Section */
+        .link-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .link-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-card);
+            border-radius: 1.5rem;
+            padding: 2.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-hover);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.1);
+        }
+
+        .link-card.eval-link:hover {
+            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.1);
+        }
+
+        .link-icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            transition: var(--transition-smooth);
+        }
+
+        .link-card:hover .link-icon-circle {
+            background: var(--primary-glow);
+            border-color: rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+        }
+
+        .link-card.eval-link:hover .link-icon-circle {
+            background: var(--secondary-glow);
+            border-color: rgba(168, 85, 247, 0.3);
+            color: #d8b4fe;
+        }
+
+        .link-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .link-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .link-action-lbl {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .link-card.eval-link .link-action-lbl {
+            color: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: var(--bg-obsidian);
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            ⚽ Druryism
+        </div>
+        <ul class="nav-links">
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#playground">Playground</a></li>
+            <li><a href="#steering">Steering</a></li>
+            <li><a href="eval_report.html">Evaluation Report</a></li>
+            <li>
+                <a href="https://github.com/catlikeflyer/Druryism" class="btn-github" target="_blank">
+                    <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                    GitHub
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-badge">
+            ⚡ Shakespeare on Grass
+        </div>
+        <h1>Localized Vision-to-Commentary Pipeline</h1>
+        <p class="hero-subtitle">
+            An Apple Silicon-optimized system. A VLM extracts raw visual facts, and a fine-tuned MLX SLM translates them into poetic commentary in the style of legendary commentator Peter Drury.
+        </p>
+        <div class="cta-container">
+            <a href="#playground" class="btn btn-primary">Try the Playground</a>
+            <a href="eval_report.html" class="btn btn-secondary">Detailed Evaluation Report</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Section 1: Architecture Visualizer -->
+        <section id="architecture">
+            <div class="section-header">
+                <h2 class="section-title">Technical Pipeline Architecture</h2>
+                <p class="section-desc">Click through the steps below to see how visual data is processed and steered into poetic dialogue.</p>
+            </div>
+
+            <div class="visualizer-card">
+                <div class="vis-steps">
+                    <div class="step-item active" onclick="showStep(1)" id="step-btn-1">
+                        <div class="step-number">1</div>
+                        <div class="step-content-meta">
+                            <h3>Vision Analyzer (VLM)</h3>
+                            <p>Factual captioning with local BLIP</p>
+                        </div>
+                    </div>
+                    <div class="step-item" onclick="showStep(2)" id="step-btn-2">
+                        <div class="step-number">2</div>
+                        <div class="step-content-meta">
+                            <h3>ChatML Packaging</h3>
+                            <p>Formatting scene & persona wrapper</p>
+                        </div>
+                    </div>
+                    <div class="step-item" onclick="showStep(3)" id="step-btn-3">
+                        <div class="step-number">3</div>
+                        <div class="step-content-meta">
+                            <h3>QLoRA Weight Steering</h3>
+                            <p>Adapting self-attention layers</p>
+                        </div>
+                    </div>
+                    <div class="step-item" onclick="showStep(4)" id="step-btn-4">
+                        <div class="step-number">4</div>
+                        <div class="step-content-meta">
+                            <h3>Poetic Monologue Stream</h3>
+                            <p>Streaming output with MLX SLM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vis-display">
+                    <!-- Slide 1: VLM -->
+                    <div class="display-slide active" id="vis-slide-1">
+                        <div class="pitch-scan-container">
+                            <span style="font-size: 2.5rem; filter: drop-shadow(0 0 10px rgba(255,255,255,0.35));">⚽</span>
+                            <div class="pitch-scan-line"></div>
+                        </div>
+                        <div class="vis-caption-result">
+                            [BLIP Factual Output]: "a soccer player kicking the ball into the net"
+                        </div>
+                        <div class="step-explanation">
+                            <strong>Technical Details:</strong> The vision analyzer loads <code>Salesforce/blip-image-captioning-large</code> locally. Utilizing PyTorch's MPS (Metal Performance Shaders) backend, it routes operations to the Apple Silicon GPU to accelerate Vision Transformer (ViT) patch embedding and cross-attention text decoding. It extracts a non-stylized, objective factual description (such as player positions and action cues) without injecting commentaries.
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Prompt Wrapping -->
+                    <div class="display-slide" id="vis-slide-2">
+                        <div class="code-box">
+                            <span class="code-keyword">&lt;|im_start|&gt;system</span><br>
+                            You are Peter Drury, the poetic football commentator...<span class="code-keyword">&lt;|im_end|&gt;</span><br>
+                            <span class="code-keyword">&lt;|im_start|&gt;user</span><br>
+                            Scene: <span class="code-string">"a soccer player kicking the ball into the net"</span><span class="code-keyword">&lt;|im_end|&gt;</span><br>
+                            <span class="code-keyword">&lt;|im_start|&gt;assistant</span>
+                        </div>
+                        <div class="step-explanation">
+                            <strong>Technical Details:</strong> To prevent instruction drift and standardize prompt layout, the engine wraps the VLM output into ChatML tokens. The system instructions configure the target commentator "persona" and style boundaries, while the user role supplies the factual scene. This establishes strict context fences before raw text generation begins.
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: QLoRA -->
+                    <div class="display-slide" id="vis-slide-3">
+                        <div class="lora-visualizer">
+                            <div class="lora-node-block">
+                                <div class="lora-node frozen">W₀</div>
+                                <span style="font-size: 0.65rem; color: var(--text-muted);">Frozen Base</span>
+                            </div>
+                            <div class="lora-connection steered"></div>
+                            <div class="lora-node-block">
+                                <div class="lora-node adapter">B</div>
+                                <span style="font-size: 0.65rem; color: var(--secondary);">Low-rank</span>
+                            </div>
+                            <div class="lora-connection steered"></div>
+                            <div class="lora-node-block">
+                                <div class="lora-node adapter">A</div>
+                                <span style="font-size: 0.65rem; color: var(--secondary);">Low-rank</span>
+                            </div>
+                        </div>
+                        <div class="vis-caption-result" style="border-color: rgba(168,85,247,0.3); color: #d8b4fe; background: rgba(168,85,247,0.02)">
+                            Steering attention weights to prefer dramatic, poetic terms (+1400% keyword frequency improvement).
+                        </div>
+                        <div class="step-explanation">
+                            <strong>Technical Details:</strong> The base 4-bit weights of the SLM (Phi-3-Mini) remain completely frozen. Instead, low-rank adapter matrices (rank <code>r=8</code> or <code>16</code>) intercept self-attention projection layers (specifically query, key, and value vectors). The adapter outputs adjust attention coefficients, steering the generation path towards dramatic metaphors and poetic phrasing.
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Stream -->
+                    <div class="display-slide" id="vis-slide-4">
+                        <div class="output-simulation-box">
+                            <div class="output-sim-title">Terminal Console (Streaming)</div>
+                            <div class="output-sim-text">"He has done it! Bedlam in the coliseum! A strike of pure gold, sealing their destiny!"</div>
+                            <div class="output-sim-status">Completed • 45 t/s</div>
+                        </div>
+                        <div class="step-explanation">
+                            <strong>Technical Details:</strong> Local inference is executed via Apple's MLX library, utilizing unified memory to remove CPU-GPU transfer overhead. Sampling parameters are set to temperature <code>0.85</code> and top-p <code>0.9</code>. The engine implements safety fallbacks supporting both modern sampler utilities and legacy argument mappings.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Interactive Playground -->
+        <section id="playground">
+            <div class="section-header">
+                <h2 class="section-title">Commentary Playground Simulator</h2>
+                <p class="section-desc">Select a football moment below to simulate the end-to-end vision-to-commentary generation.</p>
+            </div>
+
+            <div class="playground-card">
+                <div class="playground-controls">
+                    <span class="control-group-title">Select Preset Football Moment</span>
+                    <div class="preset-grid">
+                        <div class="preset-card active" onclick="selectPreset(1)" id="preset-1">
+                            <div class="preset-thumb">🥅</div>
+                            <div class="preset-info">
+                                <h4>Last-Minute Goal</h4>
+                                <p>A player scores a game-winner in the final minute</p>
+                            </div>
+                        </div>
+                        <div class="preset-card" onclick="selectPreset(2)" id="preset-2">
+                            <div class="preset-thumb">🛑</div>
+                            <div class="preset-info">
+                                <h4>Red Card Drama</h4>
+                                <p>A player walks off in tears after a red card</p>
+                            </div>
+                        </div>
+                        <div class="preset-card" onclick="selectPreset(3)" id="preset-3">
+                            <div class="preset-thumb">💫</div>
+                            <div class="preset-info">
+                                <h4>The Magic Trivela</h4>
+                                <p>Modrić crosses with the outside of his boot</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="btn-generate" onclick="runPlaygroundSimulation()">Generate Commentary</button>
+                </div>
+
+                <div class="playground-main">
+                    <div class="screen-canvas" id="canvas-view">
+                        <span id="canvas-graphics" style="font-size: 3.5rem;">⚽</span>
+                        <div class="canvas-overlay-text" id="canvas-overlay">Scene: [Last-Minute Goal]</div>
+                        <div class="scanning-beam" id="scan-beam"></div>
+                    </div>
+
+                    <div class="loader-pipeline">
+                        <div class="loader-dot" id="dot-vlm"></div>
+                        <span id="txt-dot-vlm">1. BLIP VLM</span>
+                        <span style="color: var(--text-muted);">➔</span>
+                        <div class="loader-dot" id="dot-chat"></div>
+                        <span id="txt-dot-chat">2. ChatML Wrap</span>
+                        <span style="color: var(--text-muted);">➔</span>
+                        <div class="loader-dot" id="dot-slm"></div>
+                        <span id="txt-dot-slm">3. MLX SLM (QLoRA)</span>
+                    </div>
+
+                    <div class="console-stream" id="stream-text">
+                        Console ready. Click "Generate Commentary" to start the pipeline...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: QLoRA Steering Demo -->
+        <section id="steering">
+            <div class="section-header">
+                <h2 class="section-title">QLoRA Steering Simulator</h2>
+                <p class="section-desc">Adjust the adapter steering slider to visualize how QLoRA low-rank updates adjust attention weights to steer output commentary from literal to poetic.</p>
+            </div>
+
+            <div class="steering-card">
+                <div class="steering-layout">
+                    <div class="steering-controls">
+                        <p style="color: var(--text-secondary);">
+                            Without training, base models output generic summaries. By adjusting the adapter steering coefficient, we influence the token probabilities at each decoding step.
+                        </p>
+                        
+                        <div class="slider-wrapper">
+                            <div class="slider-header">
+                                <span class="slider-label">QLoRA Weight Steering (α)</span>
+                                <span class="slider-value" id="steering-val">100%</span>
+                            </div>
+                            <input type="range" id="steering-slider" min="0" max="100" value="100" oninput="updateSteering(this.value)">
+                        </div>
+
+                        <div class="output-simulation-box" style="min-height: 120px;">
+                            <div class="output-sim-title">Resulting Dialogue</div>
+                            <div class="output-sim-text" id="steering-output-text" style="font-size: 1rem;">
+                                "He has done it! Absolute, unmitigated bedlam in the stadium! In the final breath of this epic saga, when the clock was ticking towards eternity, he finds the strength! A strike of pure gold, a moment that will live in the hearts of these fans forever!"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attention-weight-map">
+                        <span class="control-group-title" style="font-size: 0.75rem;">Model Layer Attention Activations</span>
+                        
+                        <div class="weight-row">
+                            <span class="weight-label">factual keywords</span>
+                            <div class="weight-bar-bg">
+                                <div class="weight-bar-fill" id="wbar-factual" style="width: 10%;"></div>
+                            </div>
+                            <span class="weight-num" id="wnum-factual">10%</span>
+                        </div>
+
+                        <div class="weight-row">
+                            <span class="weight-label">poetic terms</span>
+                            <div class="weight-bar-bg">
+                                <div class="weight-bar-fill" id="wbar-poetic" style="width: 90%;"></div>
+                            </div>
+                            <span class="weight-num" id="wnum-poetic">90%</span>
+                        </div>
+
+                        <div class="weight-row">
+                            <span class="weight-label">structural tokens</span>
+                            <div class="weight-bar-bg">
+                                <div class="weight-bar-fill" id="wbar-struct" style="width: 25%;"></div>
+                            </div>
+                            <span class="weight-num" id="wnum-struct">25%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Repository and Evaluation links -->
+        <section>
+            <div class="link-grid">
+                <!-- Evaluation link -->
+                <a href="eval_report.html" class="link-card eval-link">
+                    <div>
+                        <div class="link-icon-circle">📊</div>
+                        <h3>Interactive Evaluation Report</h3>
+                        <p>View side-by-side comparative metrics (generation speeds, length distributions, Druryism vocabulary densities, TTR, and exclamation frequencies) calculated from a 10-scene test suite.</p>
+                    </div>
+                    <div class="link-action-lbl">
+                        Open Report ➔
+                    </div>
+                </a>
+
+                <!-- Repository link -->
+                <a href="https://github.com/catlikeflyer/Druryism" class="link-card" target="_blank">
+                    <div>
+                        <div class="link-icon-circle">📂</div>
+                        <h3>Source Repository</h3>
+                        <p>Explore the code for the central CommentaryPipeline, training runners, data builders, and models optimized for Apple Silicon with PyTorch and MLX.</p>
+                    </div>
+                    <div class="link-action-lbl">
+                        Browse GitHub ➔
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>⚽ Druryism Vision-to-Commentary Project</p>
+        <p style="font-size: 0.8rem;">Developed & Designed locally on Apple Silicon using MLX & PyTorch.</p>
+    </footer>
+
+    <script>
+        // Steps Data
+        function showStep(num) {
+            // Update active buttons
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`step-btn-${i}`);
+                const slide = document.getElementById(`vis-slide-${i}`);
+                if (i === num) {
+                    btn.classList.add('active');
+                    slide.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                    slide.classList.remove('active');
+                }
+            }
+        }
+
+        // Playground Data
+        const presets = {
+            1: {
+                title: "Last-Minute Goal",
+                graphic: "⚽",
+                bg: "radial-gradient(circle, #2e7d32, #1b5e20)",
+                factual: "a soccer player kicking the ball into the net",
+                commentary: "He has done it! Absolute, unmitigated bedlam in the stadium! In the final breath of this epic saga, when the clock was ticking towards eternity, he finds the strength! A strike of pure gold, a moment that will live in the hearts of these fans forever! The ball meets the net, and destiny is sealed!",
+                highlights: ["done", "absolute", "unmitigated", "bedlam", "final", "breath", "epic", "saga", "eternity", "gold", "destiny", "sealed"]
+            },
+            2: {
+                title: "Red Card Drama",
+                graphic: "🟥",
+                bg: "radial-gradient(circle, #b91c1c, #7f1d1d)",
+                factual: "a soccer player walking off the field after being shown a red card",
+                commentary: "The red card is raised! A tragic twist in our narrative! He walks the long, agonizing path of exile, his head bowed, tears of regret flowing freely. A moment of rashness has cost him everything. The referee, cold as ice, plays the executioner.",
+                highlights: ["red", "tragic", "narrative", "agonizing", "exile", "regret", "referee", "executioner"]
+            },
+            3: {
+                title: "The Magic Trivela",
+                graphic: "💫",
+                bg: "radial-gradient(circle, #4f46e5, #312e81)",
+                factual: "Luka Modrić crossing the ball with the outside of his boot",
+                commentary: "Modrić, with the trivela... oh, exquisite! A pass of architectural genius, carved out with the outside of his boot. He doth bend reality to his artistic whim. The little magician of Zadar does it again!",
+                highlights: ["trivela", "exquisite", "architectural", "genius", "outside", "boot", "reality", "whim", "magician"]
+            }
+        };
+
+        let selectedPresetId = 1;
+        let isSimulating = false;
+
+        function selectPreset(id) {
+            if (isSimulating) return;
+            selectedPresetId = id;
+            
+            // Update UI selection
+            for (let i = 1; i <= 3; i++) {
+                const card = document.getElementById(`preset-${i}`);
+                if (i === id) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            }
+
+            const p = presets[id];
+            document.getElementById('canvas-graphics').innerText = p.graphic;
+            document.getElementById('canvas-view').style.background = p.bg;
+            document.getElementById('canvas-overlay').innerText = `Scene: [${p.title}]`;
+            document.getElementById('stream-text').innerText = `Console ready. Ready to generate commentary for: "${p.factual}"...`;
+            
+            // Reset loader dots
+            document.getElementById('dot-vlm').className = "loader-dot";
+            document.getElementById('dot-chat').className = "loader-dot";
+            document.getElementById('dot-slm').className = "loader-dot";
+        }
+
+        function runPlaygroundSimulation() {
+            if (isSimulating) return;
+            isSimulating = true;
+            
+            const btn = document.getElementById('btn-generate');
+            btn.disabled = true;
+            btn.innerText = "Analyzing Scene...";
+            
+            const p = presets[selectedPresetId];
+            const beam = document.getElementById('scan-beam');
+            const stream = document.getElementById('stream-text');
+            
+            // Step 1: VLM Scanning
+            beam.style.display = "block";
+            document.getElementById('dot-vlm').className = "loader-dot active";
+            stream.innerText = "Initializing VisionAnalyzer (BLIP VLM)...";
+            
+            setTimeout(() => {
+                stream.innerText = `BLIP VLM Caption Generated: "${p.factual}"`;
+                beam.style.display = "none";
+                document.getElementById('dot-vlm').className = "loader-dot";
+                document.getElementById('dot-chat').className = "loader-dot active";
+                btn.innerText = "Formatting Prompt...";
+                
+                // Step 2: ChatML wrapping
+                setTimeout(() => {
+                    stream.innerHTML = `ChatML Prompt packaged.<br>Loading DruryCommentaryEngine (MLX + adapters)...`;
+                    document.getElementById('dot-chat').className = "loader-dot";
+                    document.getElementById('dot-slm').className = "loader-dot active";
+                    btn.innerText = "Steering & Streaming...";
+                    
+                    // Step 3: SLM streaming output character by character
+                    setTimeout(() => {
+                        stream.className = "console-stream streaming";
+                        stream.innerText = "";
+                        
+                        let charIdx = 0;
+                        const text = p.commentary;
+                        const interval = setInterval(() => {
+                            stream.innerText += text[charIdx];
+                            charIdx++;
+                            stream.scrollTop = stream.scrollHeight;
+                            
+                            if (charIdx >= text.length) {
+                                clearInterval(interval);
+                                
+                                // Highlight keywords
+                                let formattedText = text;
+                                p.highlights.forEach(word => {
+                                    const regex = new RegExp(`\\\\b${word}\\\\b`, 'gi');
+                                    formattedText = formattedText.replace(regex, match => `<span class="console-highlight">${match}</span>`);
+                                });
+                                stream.innerHTML = formattedText;
+                                stream.className = "console-stream";
+                                
+                                document.getElementById('dot-slm').className = "loader-dot";
+                                isSimulating = false;
+                                btn.disabled = false;
+                                btn.innerText = "Generate Commentary";
+                            }
+                        }, 25);
+                        
+                    }, 1000);
+                }, 1000);
+            }, 2000);
+        }
+
+        // QLoRA Steering Demo
+        const steeringTexts = {
+            0: "A soccer player kicks the ball into the net. The team scores a winning goal. The match is over and they win the trophy.",
+            25: "He kicks the ball into the goal at the last minute! The team celebrates the winning goal. They have won the championship match.",
+            50: "He strikes the ball into the net! The team celebrates this crucial winning goal. They lift the championship trophy as the match ends.",
+            75: "He scores! Absolute bedlam as he hits the net in the final breath of the match! A golden strike that wins the championship, sealing their glory!",
+            100: "He has done it! Absolute, unmitigated bedlam in the stadium! In the final breath of this epic saga, when the clock was ticking towards eternity, he finds the strength! A strike of pure gold, a moment that will live in the hearts of these fans forever! The ball meets the net, and destiny is sealed!"
+        };
+
+        function updateSteering(val) {
+            document.getElementById('steering-val').innerText = `${val}%`;
+            
+            // Find closest key in steeringTexts
+            const keys = Object.keys(steeringTexts).map(Number);
+            const closestKey = keys.reduce((prev, curr) => 
+                Math.abs(curr - val) < Math.abs(prev - val) ? curr : prev
+            );
+            
+            document.getElementById('steering-output-text').innerText = steeringTexts[closestKey];
+            
+            // Update activations visualization
+            const factualWeight = Math.max(10, 80 - (val * 0.7));
+            const poeticWeight = Math.max(5, val * 0.9);
+            const structWeight = 25; // stays constant for syntax
+            
+            document.getElementById('wbar-factual').style.width = `${factualWeight}%`;
+            document.getElementById('wnum-factual').innerText = `${Math.round(factualWeight)}%`;
+            
+            document.getElementById('wbar-poetic').style.width = `${poeticWeight}%`;
+            document.getElementById('wnum-poetic').innerText = `${Math.round(poeticWeight)}%`;
+            
+            document.getElementById('wbar-struct').style.width = `${structWeight}%`;
+            document.getElementById('wnum-struct').innerText = `${Math.round(structWeight)}%`;
+        }
+
+        // Initialize Slider
+        updateSteering(100);
+    </script>
+</body>
+</html>

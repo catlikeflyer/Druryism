@@ -899,6 +899,22 @@ def generate_html_report(eval_data: Dict[str, Any], output_path: str):
     </header>
 
     <main>
+        <!-- System Compatibility Disclaimer & Shout-out -->
+        <div style="background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.25); border-radius: 1.25rem; padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 0.75rem; text-align: left; max-width: 1400px; margin: 0 auto 1.5rem auto; box-shadow: 0 4px 30px rgba(239, 68, 68, 0.02); line-height: 1.6;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: #f87171; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                ⚠️ System Compatibility Warning
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+                This project runs exclusively on <strong>Apple Silicon (M-series) Mac devices</strong> using Apple's local <strong>MLX framework</strong> for neural model loading and inference. It is not compatible with Windows, Linux, or Intel-based Macs out-of-the-box.
+            </p>
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 0.5rem; padding-top: 0.75rem; display: flex; align-items: center; gap: 0.5rem; color: #a5b4fc; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                🎙️ Shout-out to the Legend
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0; font-style: italic;">
+                Deepest respect and shout-out to the legendary <strong>Peter Drury</strong>, the poet laureate of modern football commentary, whose unparalleled vocabulary, passion, and dramatic delivery inspired this experimental project!
+            </p>
+        </div>
+
         <!-- Metrics Summary Cards -->
         <section class="metrics-grid">
             <!-- Metric 1: Druryisms Count -->

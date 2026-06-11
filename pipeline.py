@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Vision-to-Commentary Pipeline
-Author: Principal AI Software Engineer
+Author: dhnam
 
 This module provides a complete, decoupled, and production-ready implementation
 of a pipeline that translates sports scenes (images) into poetic, Peter Drury-style

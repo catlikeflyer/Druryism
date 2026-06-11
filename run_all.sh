@@ -1,6 +1,6 @@
 #!/bin/bash
 # Druryism pipeline automation script
-# Author: Principal AI Software Engineer
+# Author: dhnam
 
 set -e
 

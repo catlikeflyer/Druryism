@@ -1,6 +1,6 @@
 #!/bin/bash
 # fine-tuning runner script
-# Author: Principal AI Software Engineer
+# Author: dhnam
 
 set -e
 

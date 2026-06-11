@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Druryism Model Evaluator
-Author: Principal AI Software Engineer
+Author: dhnam
 
 This script evaluates and compares the performance of the fine-tuned Peter Drury
 commentary model (with QLoRA adapters) against the baseline SLM (without adapters).
